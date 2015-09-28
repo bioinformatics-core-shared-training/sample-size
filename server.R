@@ -24,9 +24,17 @@ shinyServer(function(input, output) {
     samsize <- array(numeric(nh+np), dim=c(nh,np))
     for (i in 1:np){
       for (j in 1:nh){
-        result <- pwr.2p.test(n = NULL, h = h[j],
-                              sig.level = as.numeric(input$sig.level), power = p[i],
-                              alternative = input$alternative)
+        if(input$type == "t") { 
+          result <- pwr.t.test(n = NULL, d = h[j],
+                               sig.level = as.numeric(input$sig.level), power = p[i],
+                               alternative = input$alternative,type=input$type.of.t)
+        } else{
+          result <- pwr.2p.test(n = NULL, h = h[j],
+                                sig.level = as.numeric(input$sig.level), power = p[i],
+                                alternative = input$alternative)
+        }
+        
+        result
         samsize[j,i] <- round(result$n)
       }
     }
@@ -37,8 +45,19 @@ shinyServer(function(input, output) {
   )
   
   output$sSizeCalc <- renderPrint({
-    pwr.2p.test(n=NULL,h=input$effect,sig.level=as.numeric(input$sig.level),power=input$power,alternative=input$alternative)
-  
+
+    
+    if(input$type == "t") { 
+      result <- pwr.t.test(n = NULL, d = input$effect,
+                                               sig.level = as.numeric(input$sig.level), power = input$power,
+                                               alternative = input$alternative,type=input$type.of.t)
+    } else{
+       result <- pwr.2p.test(n = NULL, h = input$effect,
+                                 sig.level = as.numeric(input$sig.level), power = input$power,
+                                 alternative = input$alternative)
+    }
+    
+      result
     }
   )
   

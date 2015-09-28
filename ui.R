@@ -26,7 +26,9 @@ shinyUI(fluidPage(
                   max = 1.8,
                   value = 0.8,step = 0.1),
       textInput("sig.level","Level of Significance",value = 0.05),
-      radioButtons("alternative", "Alternative", c("Two-sided"="two.sided", "Greater" = "greater", "Lower"="less"),"two.sided")
+      radioButtons("alternative", "Alternative", c("Two-sided"="two.sided", "Greater" = "greater", "Less"="less"),"two.sided"),
+      radioButtons("type", "Type of test", c("T -test"="t", "Propotions"="prop"),"t"),
+      radioButtons("type.of.t", "Type of t-test", c("Two Sample"="two.sample", "One Sample"="one.sample","Paired"="paired"),"two.sample")
 
     ),
 
